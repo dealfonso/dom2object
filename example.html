@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/default.min.css">
+    <script src="src/dom2object.js"></script>
+    <style>
+        html, body {
+            padding: 20px;
+        }
+        .example {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        </style>
+</head>
+<body>
+    <h1>Examples for the <code>DOM2Object</code> library</h1>
+    <div class="example">
+        <h2>Basic example</h2>
+        <p>We can get access to the input object with name <span class="fw-bold">username</span> as a property of the object with id <span class="fw-bold">mydata</span> using a expression like <code>mydata.username</code></p>
+        <p>The same applies to other named components like <span class="fw-bold">password</span> or <span class="fw-bold">mybutton</span></p>
+        <div id="mydata1" class="w-50">
+            <input class="form-control" type="text" name="username" value="johndoe" />
+            <input class="form-control" type="password" name="password" value="secret" />
+            <button class="btn btn-primary" id="mybutton">Click me!</button>
+        </div>
+        <script>
+        var data1 = DOM2Object("#mydata1");
+        data1.mybutton.onclick = function() {
+            alert(`Button clicked! ${data1.username.value}:${data1.password.value}`);
+        };
+        </script>
+    </div>
+    <div class="example">
+        <h2>Nested objects</h2>
+        <p>If we have named objects, their children are nested to them, thus creating a hierarchical object.</p>
+        <p>In this example we can gain access to the input with name <span class="fw-bold">name</span> with the expression <code>data.mainData.name</code>, because it is inside a div with id <span class="fw-bold">mainData</span></p>
+        <div id="mydata2" class="w-50">
+            <div id="mainData">
+                <label>Name</label>
+                <input class="form-control" type="text" name="name" value="John" />
+                <label>Surname</label>
+                <input class="form-control" type="text" name="surname" value="Doe" />
+            </div>
+            <div id="userData">
+                <label>Username</label>
+                <input class="form-control" type="text" name="username" value="johndoe" />
+                <label>Password</label>
+                <input class="form-control" type="password" name="password" value="secret" />
+            </div>
+            <button class="btn btn-primary" id="mybutton">Click me!</button>
+        </div>
+        <script>
+        var data2 = DOM2Object("#mydata2");
+        data2.mybutton.onclick = function() {
+            alert(`Button clicked! ${data2.mainData.name.value}, ${data2.mainData.surname.value}; credentials ${data2.userData.username.value}:${data2.userData.password.value}`);
+        };
+        </script>
+    </div>
+    <div class="example">
+        <h2>Child of anonymous objects</h2>
+        <p>If we named objects inside anonymous objects, they will not be acquired unless we instruct <code>DOM2Object</code> to do so by passing a second parameter set to <code>true</code>.</p>
+        <p>In this example we can gain access to the input with name <span class="fw-bold">name</span> with the expression <code>data.name</code>, even if it is a child of an intermediate <code>div</code>, because we used the expression <code>DOM2Object(..., true)</code></p>
+        <div id="mydata3" class="w-50">
+            <div>
+                <label>Name</label>
+                <input class="form-control" type="text" name="name" value="John" />
+                <label>Surname</label>
+                <input class="form-control" type="text" name="surname" value="Doe" />
+            </div>
+            <div>
+                <label>Username</label>
+                <input class="form-control" type="text" name="username" value="johndoe" />
+                <label>Password</label>
+                <input class="form-control" type="password" name="password" value="secret" />
+            </div>
+            <button class="btn btn-primary" id="mybutton">Click me!</button>
+        </div>
+        <script>
+        var data3 = DOM2Object("#mydata3", true);
+        data3.mybutton.onclick = function() {
+            alert(`Button clicked! ${data3.name.value}, ${data3.surname.value}; credentials ${data3.username.value}:${data3.password.value}`);
+        };
+        </script>
+    </div>    
+    <div class="example">
+        <h2>Overlapping names with existing properties</h2>
+        <p>In case that the names of the objects overlap with the properties or methods of existing HTMLElements, they will be overwritten.</p>
+        <p>This is the case of <code>data.children</code> and <code>data.innerHTML</code>, that shadow the properties of the <code>div</code>. If needed, it is possible to use <code>data._el</code> to get the original element.</p>
+        <div id="mydata4" class="w-50">
+            <input type="text" name="children" value="johndoe" />
+            <input type="password" name="innerHTML" value="secret" />
+            <button class="btn btn-primary" id="mybutton">Click me!</button>
+        </div>
+        <script>
+        var data = DOM2Object("#mydata4", true);
+        data.mybutton.onclick = function() {
+            alert(`Button clicked! ${data.children.value}, ${data.innerHTML.value}`);
+        };
+        </script>
+    </div>    </body>
+<script src="https://cdn.jsdelivr.net/gh/dealfonso/showsource@1.2.1/dist/showsource.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+<script>
+    showsource.defaults.skipSelector="h1,h2,h3,h4,h5,h6,p,label";
+    showsource.defaults.removeAttributes="class";
+    showsource.defaults.hideSelector=".example";
+    showsource.show("div.example");
+    if (document.addEventListener) {
+        document.addEventListener("DOMContentLoaded", function () {
+        hljs.highlightAll();
+        });
+    }
+</script>
+</html>
