@@ -1,3 +1,5 @@
+"use strict";
+
 /**
  * Builds a Proxy for the given DOM element, so that it can be accessed as an object, but if each of the HTML elements has an id, it can be accessed by that id.
  *      e.g.
@@ -115,6 +117,7 @@ function DOMToObject(el, acquireChildrenFromAnonymous = false) {
                     acquireChildren(proxy);
                 }
             }
+            return true;
         }
     });    
 
