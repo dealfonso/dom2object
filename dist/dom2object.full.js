@@ -22,7 +22,9 @@
     SOFTWARE.
 */
 
-(function (window, document) {
+(function (exports) {
+	"use strict";
+
 	function DOMToObject(el, acquireChildrenFromAnonymous = false) {
 		if (typeof el === "string") {
 			el = document.querySelector(el)
@@ -98,6 +100,7 @@
 						acquireChildren(proxy)
 					}
 				}
+				return true
 			}
 		});
 		acquireChildren(proxy);
@@ -119,4 +122,4 @@
 	};
 	DOMToObject.version = "0.9.0";
 	window.DOM2Object = DOMToObject
-})(window, document);
+})(window);
