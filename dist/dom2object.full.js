@@ -120,6 +120,6 @@
 		}
 		return objects
 	};
-	DOMToObject.version = "0.9.0";
+	DOMToObject.version = "0.9.1";
 	window.DOM2Object = DOMToObject
 })(window);

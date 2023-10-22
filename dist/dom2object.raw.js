@@ -157,7 +157,7 @@ function DOMToObject(el, acquireChildrenFromAnonymous = false) {
 }
 
 // The version for the library
-DOMToObject.version = "0.9.0";
+DOMToObject.version = "0.9.1";
 
 // Export to the window object
 window.DOM2Object = DOMToObject;
